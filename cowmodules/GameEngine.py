@@ -11,10 +11,9 @@ sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO)
 
 class PhysicEngine:
 
-    def __init__(self, window,gravity=False, gravityVal=1, delay=0.01):
+    def __init__(self, window,gravity=False, delay=0.01):
         self.gravity = gravity
         self.objects = []
-        self.gravityVal = gravityVal
         self.window = window
         self.delay = delay
 
@@ -22,9 +21,10 @@ class PhysicEngine:
         self.objects.append(object)
 
     def _apply_gravity(self, object):
-        if object.gravity and object.position[1] < self.window.height:
-            object.position[1] += self.gravityVal
-            time.sleep(self.delay)
+        if self.gravity and object.gravity and object.position[1] < self.window.height:
+            gravSpeed = object.gravitySpeed or 1
+            object.position[1] += 1
+            
 
     def run(self):
         # Valid objects
@@ -187,7 +187,7 @@ class EventTypes:
 
 # Objects
 class Square:
-    def __init__(self, size, position, color, gravity=False):
+    def __init__(self, size, position, color, gravity=False, gravitySpeed=1):
         # Filters
         assert len(position) == 2, "Position value must have 2 int values"
         assert type(size) == int, "Size value must be int"
@@ -197,6 +197,7 @@ class Square:
         self.position = position
         self.color = color
         self.gravity = gravity
+        self.gravitySpeed = gravitySpeed
 
     def draw(self, window):
         renderer = window.renderer
