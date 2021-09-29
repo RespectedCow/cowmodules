@@ -6,9 +6,10 @@ world = engine.Window("Damn", [900, 600])
 
 is_running = True
 
-world.set_background(0, 0, 0)
+world.set_background(255, 255, 255)
 
-square = objects.Square(100, [100, 100], [255, 255, 255], True)
+square = objects.Square(100, [100, 100], [0, 0, 0], True)
+platform = objects.Rectangle([900, 5], [0, 500], [0, 0, 0])
 
 # Variables
 keydebounce = 0.1
@@ -21,6 +22,7 @@ physicEngine.add_object(square)
 # Create a scene
 world.create_scene("1")
 world.add_to_scene(square, "1")
+world.add_to_scene(platform, "1")
 
 # Functions
 def key_pressed(key_down, pressed_keys):
@@ -33,6 +35,11 @@ def key_pressed(key_down, pressed_keys):
         square.position[0] += 1
         key_down = True
     elif not check_for(pressed_keys, "D") and key_down:
+        key_down = False
+    if check_for(pressed_keys, "W") and not key_down:
+        square.position[1] -= 10
+        key_down = True
+    elif not check_for(pressed_keys, "W") and key_down:
         key_down = False
 
 def check_for(list, key):
@@ -55,6 +62,12 @@ while is_running:
     # Print loop times for debugging
     index += 1
     # print("Looped " + str(index) + " times")
+
+    # Detect collisions
+    if physicEngine.check_for_collision(square, platform):
+        square.gravity = False
+    else:
+        square.gravity = True
 
     # Get values
     event = world.event()
