@@ -5,13 +5,15 @@ import sdl2.ext
 from cowmodules import common
 from cowmodules.GameEngine.objects import Square, Circle
 import threading
+import time
 
 class PhysicService:
     
-    def __init__(self, window,gravity=False):
+    def __init__(self, window,gravity=False, delay=0.001):
         self.gravity = gravity
         self.objects = []
         self.window = window
+        self.delay = delay
 
     def add_object(self, object):
         self.objects.append(object)
@@ -20,14 +22,14 @@ class PhysicService:
         x_aligned = False
         y_aligned = False
 
-        for x1 in range(object1.position[0], object1.position[0] + get_dimension(object1.size, "x")):
-            for x2 in range(object2.position[0], object2.position[0] + get_dimension(object2.size, "x")):
+        for x1 in range(object1.position[0] + 1, object1.position[0] + get_dimension(object1.size, "x") + 1):
+            for x2 in range(object2.position[0] + 1, object2.position[0] + get_dimension(object2.size, "x") + 1):
                 if x1 == x2:
                     x_aligned = True
                     break
 
-        for y1 in range(object1.position[1], object1.position[1] + get_dimension(object1.size, "y")):
-            for y2 in range(object2.position[1], object2.position[1] + get_dimension(object2.size, "y")):
+        for y1 in range(object1.position[1] + 1, object1.position[1] + get_dimension(object1.size, "y") + 1):
+            for y2 in range(object2.position[1] + 1, object2.position[1] + get_dimension(object2.size, "y") + 1):
                 if y1 == y2:
                     y_aligned = True
                     break
@@ -40,7 +42,8 @@ class PhysicService:
     def _apply_gravity(self, object):
         if self.gravity and object.gravity and object.position[1] < self.window.height:
             gravSpeed = object.gravitySpeed or 1
-            object.position[1] += 1
+            object.position[1] += gravSpeed
+            time.sleep(self.delay)
 
     def run(self):
         # Valid objects

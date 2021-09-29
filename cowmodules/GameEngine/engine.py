@@ -110,11 +110,12 @@ class Window(sdl2.ext.Window):
     def event(self):
         event = sdl2.SDL_Event()
         
-        if sdl2.SDL_PollEvent(ctypes.byref(event)) != 0:
-            if event.type == sdl2.SDL_QUIT:
-                return "Quit"
+        # if sdl2.SDL_PollEvent(ctypes.byref(event)) != 0:
+        #     if event.type == sdl2.SDL_QUIT:
+        #         return "Quit"
 
-        return 0
+        # return 0
+        return event
 
     def hide(self):
         self.hide()
