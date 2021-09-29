@@ -1,11 +1,11 @@
 from setuptools import setup, find_packages
 
 setup(name='cowmodules',
-      version='0.1',
-      description='A module that contains useful tools created by RespectedCow',
+      version='0.13',
+      description='Cowmodules is a set of modules that RespecteCow developed. Currently having only a game engine.',
       url='http://github.com/RespectedCow',
       author='RespectedCOw',
       author_email='',
       license='MIT',
-      packages=['cowmodules'],
+      packages=['GameEngine', "common", "cowtime"],
       zip_safe=False)

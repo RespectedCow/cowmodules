@@ -1,6 +1,5 @@
-import time
 from cowmodules.GameEngine import engine, objects, services
-from cowmodules import key
+from cowmodules.GameEngine import key
 import threading
 
 world = engine.Window("Damn", [900, 600])
