@@ -1,6 +1,2 @@
 pysdl2
 pysdl2-dll
-pygame
-click
-python-util
-keyboard
