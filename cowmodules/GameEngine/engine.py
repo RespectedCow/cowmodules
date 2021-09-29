@@ -3,38 +3,6 @@ import sdl2
 import sdl2.ext
 import ctypes
 from cowmodules.cowtime import Clock
-from cowmodules import commons
-import threading
-import time
-
-sdl2.SDL_Init(sdl2.SDL_INIT_VIDEO)
-
-class PhysicEngine:
-
-    def __init__(self, window,gravity=False, delay=0.01):
-        self.gravity = gravity
-        self.objects = []
-        self.window = window
-        self.delay = delay
-
-    def add_object(self, object):
-        self.objects.append(object)
-
-    def _apply_gravity(self, object):
-        if self.gravity and object.gravity and object.position[1] < self.window.height:
-            gravSpeed = object.gravitySpeed or 1
-            object.position[1] += 1
-            
-
-    def run(self):
-        # Valid objects
-        VALID = [
-            Square
-        ]
-
-        for object in self.objects:
-            if commons.check_in_array_type(self.objects, Square):
-                threading.Thread(target=self._apply_gravity(object))
     
 class Window(sdl2.ext.Window):
     def __init__(self, world_name, dimensions, icon=None, background=[0,0,0]):
@@ -184,35 +152,6 @@ class EventTypes:
     class NormalEvent:
         def __init__(self):
             pass
-
-# Objects
-class Square:
-    def __init__(self, size, position, color, gravity=False, gravitySpeed=1):
-        # Filters
-        assert len(position) == 2, "Position value must have 2 int values"
-        assert type(size) == int, "Size value must be int"
-
-        # Assign values
-        self.size = size
-        self.position = position
-        self.color = color
-        self.gravity = gravity
-        self.gravitySpeed = gravitySpeed
-
-    def draw(self, window):
-        renderer = window.renderer
-
-        # Draw shape
-        renderer.fill([self.position[0], self.position[1], self.size, self.size], sdl2.ext.Color(self.color[0], self.color[1], self.color[2]))
-        
-
-class Circle:
-    def __init__(self, position, radius):
-        self.radius = radius
-        self.position = position
-
-    def draw(self, window): 
-        pass
 
 # functions
 def run(world):
