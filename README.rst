@@ -1,0 +1,1 @@
+Cowmodules is a set of modules that RespecteCow developed. Currently having only a game engine along with it's submodules.
