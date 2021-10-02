@@ -29,13 +29,6 @@ world.add_to_scene(platform, "1")
 world.draw("1")
 
 # Functions
-def key_pressed(key_down):
-    if key.is_down("A"):
-        square.position[0] -= 5
-    if key.is_down("D"):
-        square.position[0] += 5
-    if key.is_down("W") and physicEngine.check_for_collision(square, platform):
-        square.position[1] -= 100
 
 # Main event loop
 index = 0
@@ -60,8 +53,13 @@ while is_running:
     else:
        square.gravity = True
     
-    # Key functionality
-    threading.Thread(target=key_pressed(key_down)).start()
+    # Input
+    if key.is_down("A"):
+        square.position[0] -= 5
+    if key.is_down("D"):
+        square.position[0] += 5
+    if key.is_down("W") and physicEngine.check_for_collision(square, platform):
+        square.position[1] -= 100
 
     world.refresh()
     world.wait(10)
