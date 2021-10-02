@@ -1,5 +1,7 @@
-# Import
+# Imports
 import sdl2
+import ctypes
+import threading
 
 # Main
 def get_pressed_keys():
@@ -41,7 +43,7 @@ def get_pressed_keys():
             ["6", sdl2.SDL_SCANCODE_6],
             ["7", sdl2.SDL_SCANCODE_7],
             ["8", sdl2.SDL_SCANCODE_8],
-            ["9", sdl2.SDL_SCANCODE_9],
+            ["9", sdl2.SDL_SCANCODE_9]
         ]
 
         return_array = []
@@ -52,9 +54,67 @@ def get_pressed_keys():
 
         return return_array
 
+values = [
+    ["A", False],
+    ["B", False],
+    ["C", False],
+    ["D", False],
+    ["E", False],
+    ["F", False],
+    ["G", False],
+    ["H", False],
+    ["I", False],
+    ["J", False],
+    ["K", False],
+    ["L", False],
+    ["M", False],
+    ["N", False],
+    ["O", False],
+    ["P", False],
+    ["Q", False],
+    ["R", False],
+    ["S", False],
+    ["T", False],
+    ["U", False],
+    ["V", False],
+    ["W", False],
+    ["X", False],
+    ["Y", False],
+    ["Z", False],
+    ["0", False],
+    ["1", False],
+    ["2", False],
+    ["3", False],
+    ["4", False],
+    ["5", False],
+    ["6", False],
+    ["7", False],
+    ["8", False],
+    ["9", False]
+]
+
 def is_pressed(key):
     if check_for(get_pressed_keys(), key):
         return True
+
+    return False
+
+def __reset__(key):
+    if is_pressed(key) and not check_for(values, [key, False]):
+        value = find_in_list(values, [key, True])
+        value[1] = False
+
+def is_down(key):
+    whattoreturn = False
+
+    if is_pressed(key) and check_for(values, [key, False]):
+        value = find_in_list(values, [key, False])
+        value[1] = True
+        whattoreturn = True
+    
+    __reset__(key)
+
+    return whattoreturn
 
 def check_for(list, key):
     for match in list:
@@ -62,3 +122,10 @@ def check_for(list, key):
             return True
     
     return False
+
+def find_in_list(list, object):
+    for value in list:
+        if value == object:
+            return value
+
+    return None

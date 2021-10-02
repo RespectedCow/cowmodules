@@ -31,6 +31,7 @@ class Window(sdl2.ext.Window):
         self.renderer = sdl2.ext.Renderer(self, logical_size=(0, 0))
         self.scenes = [] # Both self.scene and self.scene_indictor have to be updated at the same rate
         self.scene_indictor = []
+        self.activated_scenes = []
 
         # Create pythonic clock
         self.clock = Clock()
@@ -55,7 +56,7 @@ class Window(sdl2.ext.Window):
         self.renderer.clear(sdl2.ext.Color(self.background[0], self.background[1], self.background[2]))
 
         # Get the list of everything to redraw
-        for scene in self.scenes:
+        for scene in self.activated_scenes:
             for object in scene:
                 object.draw(self)
 
@@ -73,6 +74,15 @@ class Window(sdl2.ext.Window):
 
         # Insert object into scene
         scene.append(object)
+
+    def draw(self, scene_name):
+        # Find scene and check if exist
+        scene = self.get_scene(scene_name)
+
+        assert scene != None, "Scene does not exist!"
+
+        # Add scene to activated_scenes
+        self.activated_scenes.append(scene)
 
     def get_mouse_pos(self):
         """Get the mouse state.
@@ -101,11 +111,21 @@ class Window(sdl2.ext.Window):
 
     def create_scene(self, scene_name):
         # Check if scene exist
-        
+        scene = self.get_scene(scene_name)
+
+        assert scene == None, "Scene exist!"
 
         # Insert scene
         self.scenes.append([])
         self.scene_indictor.append(scene_name)
+
+    def remove_scene(self, scene_name):
+        # Get the scene
+        scene = self.get_scene(scene_name)
+
+        assert scene != None, ""
+
+        # Remove scene if all goes well
 
     def event(self):
         event = sdl2.SDL_Event()

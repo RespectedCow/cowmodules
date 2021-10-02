@@ -1,11 +1,8 @@
-import cowmodules
 from cowmodules import GameEngine
 from cowmodules.GameEngine import engine, objects, services
 from cowmodules.GameEngine import key
 import threading
 import time
-import sdl2
-import ctypes
 
 world = engine.Window("Damn", [900, 600])
 
@@ -29,34 +26,16 @@ square.gravitySpeed = 5
 world.create_scene("1")
 world.add_to_scene(square, "1")
 world.add_to_scene(platform, "1")
+world.draw("1")
 
 # Functions
-def key_pressed(key_down, pressed_keys):
-    if check_for(pressed_keys, "A") and not key_down:
+def key_pressed(key_down):
+    if key.is_down("A"):
         square.position[0] -= 5
-        time.sleep(0.01)
-        key_down = True
-    elif not check_for(pressed_keys, "A") and key_down:
-        key_down = False
-    if check_for(pressed_keys, "D") and not key_down:
+    if key.is_down("D"):
         square.position[0] += 5
-        time.sleep(0.01)
-        key_down = True
-    elif not check_for(pressed_keys, "D") and key_down:
-        key_down = False
-    if check_for(pressed_keys, "W") and not key_down and physicEngine.check_for_collision(square, platform):
-        square.position[1] -= 50
-        time.sleep(0.01)
-        key_down = True
-    elif not check_for(pressed_keys, "W") and key_down:
-        key_down = False
-
-def check_for(list, key):
-    for match in list:
-        if match == key:
-            return True
-    
-    return False
+    if key.is_down("W") and physicEngine.check_for_collision(square, platform):
+        square.position[1] -= 100
 
 # Main event loop
 index = 0
@@ -70,7 +49,7 @@ while is_running:
     # print("Looped " + str(index) + " times")
 
     # Closing the window
-    while GameEngine.Poll_Event(ctypes.byref(event)) != 0:
+    while GameEngine.Poll_Event(GameEngine.byref(event)) != 0:
         if event.type == GameEngine.Quit_Event:
             is_running = False
             break
@@ -82,7 +61,7 @@ while is_running:
        square.gravity = True
     
     # Key functionality
-    threading.Thread(target=key_pressed(key_down, key.get_pressed_keys())).start()
+    threading.Thread(target=key_pressed(key_down)).start()
 
     world.refresh()
     world.wait(10)
