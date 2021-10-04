@@ -2,7 +2,6 @@ from cowmodules import GameEngine
 from cowmodules.GameEngine import engine, objects, services
 from cowmodules.GameEngine import key
 import threading
-import time
 
 world = engine.Window("Damn", [900, 600])
 
@@ -31,11 +30,11 @@ world.draw("1")
 # Functions
 def key_down():
     if key.is_down("A"):
-        square.position[0] -= 5
+        square.position[0] -= 2
     if key.is_down("D"):
-        square.position[0] += 5
+        square.position[0] += 2
     if key.is_down("W") and physicEngine.check_for_collision(square, platform):
-        threading.Thread(physicEngine.apply_velocity(square, "y", 30, "subtract"))
+        square.vel_y = 40
 
 # Main event loop
 index = 0
@@ -43,6 +42,7 @@ event = world.event()
 while is_running:
     # Run physic engine
     physicEngine.run()
+    physicEngine.apply_velocity(square, GameEngine.Axis_Y, GameEngine.CAL_SUBTRACT)
 
     # Print loop times for debugging
     index += 1
@@ -64,4 +64,4 @@ while is_running:
     threading.Thread(target=key_down()).start()
 
     world.refresh()
-    world.wait(10)
+    world.wait(5)

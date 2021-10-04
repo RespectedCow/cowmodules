@@ -1,5 +1,8 @@
 # Importing libraries
 from typing import List
+import cowmodules
+from cowmodules import GameEngine
+from cowmodules.GameEngine.key import find_in_list
 import sdl2
 import sdl2.ext
 from cowmodules import common
@@ -46,26 +49,33 @@ class PhysicService:
             object.position[1] += gravSpeed
             time.sleep(self.delay)
 
-    def apply_velocity(self, object, axis="x", velocity=10, calculation="add"):
-        if axis == "x":
-            object.vel_x = velocity
-        if axis == "y":
-            object.vel_y = velocity
-        
-        while object.vel_y > 0:
-            if calculation == "add":
-                object.position[1] += object.vel_y
+    def apply_velocity(self, object, axis=GameEngine.Axis_X, calculation=GameEngine.CAL_ADD, decay=1):
+        '''
+        Applies a velocity effect to an object with vel_x and vel_y values
+        '''
+        if object.vel_x > 0:
+            f_x = object.vel_x
 
-            object.vel_y -= object.mass
+            # Apply effects
+            if calculation == GameEngine.CAL_ADD:
+                object.position[0] += f_x
+            elif calculation == GameEngine.CAL_SUBTRACT:
+                object.position[0] -= f_x
 
-            time.sleep(0.01)
-        while object.vel_x > 0:
-            if calculation == "add":
-                object.position[0] += object.vel_x
-
+            # Decrease velocity
             object.vel_x -= object.mass
 
-            time.sleep(0.01)
+        if object.vel_y > 0:
+            f_y = object.vel_y
+
+            # Apply effects
+            if calculation == GameEngine.CAL_ADD:
+                object.position[1] += f_y
+            elif calculation == GameEngine.CAL_SUBTRACT:
+                object.position[1] -= f_y
+
+            # Decrease velocity
+            object.vel_y -= object.mass
 
     def run(self):
         # Valid objects
