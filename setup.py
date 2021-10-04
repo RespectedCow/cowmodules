@@ -7,5 +7,5 @@ setup(name='cowmodules',
       author='RespectedCOw',
       author_email='',
       license='MIT',
-      packages=['GameEngine'],
+      packages=['cowmodules'],
       zip_safe=False)

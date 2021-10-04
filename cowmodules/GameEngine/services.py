@@ -6,6 +6,7 @@ from cowmodules import common
 from cowmodules.GameEngine.objects import Square, Circle
 import threading
 import time
+import math
 
 class PhysicService:
     
@@ -44,6 +45,27 @@ class PhysicService:
             gravSpeed = object.gravitySpeed or 1
             object.position[1] += gravSpeed
             time.sleep(self.delay)
+
+    def apply_velocity(self, object, axis="x", velocity=10, calculation="add"):
+        if axis == "x":
+            object.vel_x = velocity
+        if axis == "y":
+            object.vel_y = velocity
+        
+        while object.vel_y > 0:
+            if calculation == "add":
+                object.position[1] += object.vel_y
+
+            object.vel_y -= object.mass
+
+            time.sleep(0.01)
+        while object.vel_x > 0:
+            if calculation == "add":
+                object.position[0] += object.vel_x
+
+            object.vel_x -= object.mass
+
+            time.sleep(0.01)
 
     def run(self):
         # Valid objects

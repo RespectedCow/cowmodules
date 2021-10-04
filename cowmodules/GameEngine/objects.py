@@ -2,7 +2,7 @@
 import sdl2
 
 class Square:
-    def __init__(self, size, position, color, gravity=False, gravitySpeed=1):
+    def __init__(self, size, position, color, gravity=False, gravitySpeed=1, mass=5):
         # Filters
         assert len(position) == 2, "Position value must have 2 int values"
         assert type(size) == int, "Size value must be int"
@@ -13,6 +13,9 @@ class Square:
         self.color = color
         self.gravity = gravity
         self.gravitySpeed = gravitySpeed
+        self.mass = mass
+        self.vel_y = 0
+        self.vel_x = 0
 
     def draw(self, window):
         renderer = window.renderer
