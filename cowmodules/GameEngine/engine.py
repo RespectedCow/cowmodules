@@ -3,6 +3,7 @@ import sdl2
 import sdl2.ext
 import ctypes
 from cowmodules.cowtime import Clock
+from cowmodules import common
     
 class Window(sdl2.ext.Window):
     def __init__(self, world_name, dimensions, icon=None, background=[0,0,0]):
@@ -157,22 +158,23 @@ class Window(sdl2.ext.Window):
                 self.renderer.draw_point([x,y], sdl2.ext.Color(r, g, b))
                 self.renderer.present()
 
-class Events:
-    def __init__(self, type):
-        self.type = type
-
-    def type(self):
-        return type(self.type)
-
-# Custom events
-class EventTypes:
-    class QuitEvent:
-        def __init__(self):
-            pass
+class Camera:
     
-    class NormalEvent:
-        def __init__(self):
-            pass
+    def __init__(self, world, scene_name):
+        self.scene = world.get_scene(scene_name)
+        self.exclude_list = []
+    
+    def move_y(self, y):
+        for object in self.scene:
+            object.position[1] += y
+
+    def move_x(self, x):
+        for object in self.scene:
+            if common.check_in_array(self.exclude_list, object) == False:
+                object.position[0] += x
+
+    def exclude(self, object):
+        self.exclude_list.append(object)
 
 # functions
 def run(world):

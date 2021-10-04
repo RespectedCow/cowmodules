@@ -9,7 +9,7 @@ is_running = True
 
 world.set_background(255, 255, 255)
 
-square = objects.Square(100, [100, 100], [255, 0, 0], True, mass=10)
+square = objects.Square(100, [400, 100], [255, 0, 0], True, mass=10)
 platform = objects.Rectangle([900, 5], [0, 500], [0, 0, 0])
 
 # Variables
@@ -27,12 +27,16 @@ world.add_to_scene(square, "1")
 world.add_to_scene(platform, "1")
 world.draw("1")
 
+# Create a camera
+camera = engine.Camera(world, "1")
+camera.exclude(square)
+
 # Functions
 def key_down():
     if key.is_down("A"):
-        square.position[0] -= 2
+        camera.move_x(4)
     if key.is_down("D"):
-        square.position[0] += 2
+        camera.move_x(-4)
     if key.is_down("W") and physicEngine.check_for_collision(square, platform):
         square.vel_y = 40
 
@@ -42,7 +46,7 @@ event = world.event()
 while is_running:
     # Run physic engine
     physicEngine.run()
-    physicEngine.apply_velocity(square, GameEngine.Axis_Y, GameEngine.CAL_SUBTRACT)
+    physicEngine.apply_velocity(square, GameEngine.CAL_SUBTRACT)
 
     # Print loop times for debugging
     index += 1

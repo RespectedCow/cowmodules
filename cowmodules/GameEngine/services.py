@@ -49,7 +49,7 @@ class PhysicService:
             object.position[1] += gravSpeed
             time.sleep(self.delay)
 
-    def apply_velocity(self, object, axis=GameEngine.Axis_X, calculation=GameEngine.CAL_ADD, decay=1):
+    def apply_velocity(self, object, calculation=GameEngine.CAL_ADD, decay=1):
         '''
         Applies a velocity effect to an object with vel_x and vel_y values
         '''
