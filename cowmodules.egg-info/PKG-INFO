@@ -1,8 +1,8 @@
 Metadata-Version: 1.0
 Name: cowmodules
-Version: 0.1
-Summary: A module that contains useful tools created by RespectedCow
-Home-page: http://github.com/RespectedCow
+Version: 0.13
+Summary: Cowmodules is a set of modules that RespecteCow developed. Currently having only a game engine.
+Home-page: https://github.com/RespectedCow/cowmodules
 Author: RespectedCOw
 Author-email: UNKNOWN
 License: MIT

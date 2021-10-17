@@ -107,7 +107,7 @@ def __reset__(key):
 def is_down(key):
     whattoreturn = False
 
-    if is_pressed(key) and check_for(values, [key, False]):
+    if not is_pressed(key) and check_for(values, [key, False]):
         value = find_in_list(values, [key, False])
         value[1] = True
         whattoreturn = True

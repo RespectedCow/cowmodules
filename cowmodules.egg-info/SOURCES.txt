@@ -1,7 +1,8 @@
-README.rst
+README.md
 setup.py
-cowmodules/GameEngine.py
 cowmodules/__init__.py
+cowmodules/common.py
+cowmodules/cowtime.py
 cowmodules.egg-info/PKG-INFO
 cowmodules.egg-info/SOURCES.txt
 cowmodules.egg-info/dependency_links.txt

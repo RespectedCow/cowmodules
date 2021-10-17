@@ -42,6 +42,26 @@ class Rectangle:
         # Draw shape
         renderer.fill([self.position[0], self.position[1], self.size[0], self.size[1]], sdl2.ext.Color(self.color[0], self.color[1], self.color[2]))
         
+        
+class Group:
+    
+    def __init__(self):
+        self.objects = []
+        
+    def add_object(self, object):
+        self.objects.append(object)
+        
+    def remove_object(self, object):
+        for object2 in self.objects:
+            if object == object2:
+                self.objects.remove(object2)
+                return 0
+            
+        return 1
+    
+    def get_objects(self):
+        return self.objects
+        
 
 class Circle:
     def __init__(self, position, radius):

@@ -1,9 +1,9 @@
 from cowmodules import GameEngine
-from cowmodules.GameEngine import engine, objects, services
-from cowmodules.GameEngine import key
+from cowmodules.GameEngine import engine, objects, services, multiplayer, key
 import threading
+import time
 
-world = engine.Window("Damn", [900, 600])
+world = engine.Window("Test", [900, 600])
 
 is_running = True
 
@@ -15,6 +15,7 @@ platform = objects.Rectangle([900, 5], [0, 500], [0, 0, 0])
 # Variables
 keydebounce = 0.1
 key_down = False
+canJump = True
 
 # Create a physic engine
 physicEngine = services.PhysicService(window=world, gravity=True) # Effects are applied every frame
@@ -32,12 +33,12 @@ camera = engine.Camera(world, "1")
 camera.exclude(square)
 
 # Functions
-def key_down():
-    if key.is_down("A"):
+def key_down(canJump):
+    if key.is_pressed("A"):
         camera.move_x(4)
-    if key.is_down("D"):
+    if key.is_pressed("D"):
         camera.move_x(-4)
-    if key.is_down("W") and physicEngine.check_for_collision(square, platform):
+    if key.is_pressed("W") and physicEngine.check_for_collision(square, platform):
         square.vel_y = 40
 
 # Main event loop
@@ -65,7 +66,7 @@ while is_running:
        square.gravity = True
     
     # Input
-    threading.Thread(target=key_down()).start()
+    threading.Thread(target=key_down(canJump)).start()
 
     world.refresh()
     world.wait(5)
