@@ -1,10 +1,15 @@
 # Import libraries
 import sdl2
+from cowmodules.GameEngine import engine, Vector2
 
 class Square:
     def __init__(self, size, position, color, gravity=False, gravitySpeed=1, mass=5):
+        '''
+        Create a square with the given values.
+        '''
+        
         # Filters
-        assert len(position) == 2, "Position value must have 2 int values"
+        assert type(position) == Vector2, "Position value must be a Vector2"
         assert type(size) == int, "Size value must be int"
 
         # Assign values
@@ -21,12 +26,16 @@ class Square:
         renderer = window.renderer
 
         # Draw shape
-        renderer.fill([self.position[0], self.position[1], self.size, self.size], sdl2.ext.Color(self.color[0], self.color[1], self.color[2]))
+        renderer.fill([self.position.x, self.position.y, self.size, self.size], sdl2.ext.Color(self.color[0], self.color[1], self.color[2]))
 
 class Rectangle:
-    def __init__(self, size, position, color, gravity=False, gravitySpeed=1):
+    def __init__(self, size, position, color, gravity=False, gravitySpeed=1, mass=5):
+        ''''
+        Create a rectangle object with the given values.
+        '''
+        
         # Filters
-        assert len(position) == 2, "Position value must have 2 int values"
+        assert type(position) == Vector2, "Position value must be a Vector2"
         assert type(size) == list, "Size value must be a list containing the x and y values"
 
         # Assign values
@@ -35,18 +44,35 @@ class Rectangle:
         self.color = color
         self.gravity = gravity
         self.gravitySpeed = gravitySpeed
+        self.mass = mass
+        self.vel_x = 0
+        self.vel_y = 0
 
     def draw(self, window):
+        '''
+        Draws the object on the screen.
+        
+        Note: You have to run renderer.present() for the effects to be visible
+        '''
+        
         renderer = window.renderer
 
         # Draw shape
-        renderer.fill([self.position[0], self.position[1], self.size[0], self.size[1]], sdl2.ext.Color(self.color[0], self.color[1], self.color[2]))
+        renderer.fill([self.position.x, self.position.y, self.size[0], self.size[1]], sdl2.ext.Color(self.color[0], self.color[1], self.color[2]))
         
         
 class Group:
     
-    def __init__(self):
+    def __init__(self, position):
+        '''
+        Group together objects and move them with the offset from the position
+        '''
+        
+        # Filter
+        assert position == Vector2, "Position value type is not a Vector2"
+        
         self.objects = []
+        self.position = position
         
     def add_object(self, object):
         self.objects.append(object)
@@ -61,6 +87,29 @@ class Group:
     
     def get_objects(self):
         return self.objects
+    
+    def get_offset(self, object):
+        # Check if object.position is valid
+        assert type(object.position) == Vector2, "object.position type is not a Vector2"
+        
+        return self.position.subtract(object.position)
+    
+    
+class Sprite:
+    
+    def __init__(self, window, path, position):
+        # Filter out passed variables
+        assert type(window) == engine.Window, "Window value is not a window."
+        assert type(position) == Vector2, "Position value is not a Vector2"
+        
+        # Create sprite
+        self.sprite = window.factory.from_image(path)
+        
+        # Position sprite
+        self.sprite.position = (position.x, position.y)
+        
+    def draw(self, window):
+        window.spriterenderer.render(self.sprite)
         
 
 class Circle:

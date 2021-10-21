@@ -1,16 +1,16 @@
 from cowmodules import GameEngine
-from cowmodules.GameEngine import engine, objects, services, multiplayer, key
+from cowmodules.GameEngine import engine, objects, services, multiplayer, key, Vector2
 import threading
 import time
 
-world = engine.Window("Test", [900, 600])
+world = engine.Window("Test", Vector2(900, 600))
 
 is_running = True
 
 world.set_background(255, 255, 255)
 
-square = objects.Square(100, [400, 100], [255, 0, 0], True, mass=10)
-platform = objects.Rectangle([900, 5], [0, 500], [0, 0, 0])
+square = objects.Square(100, Vector2(400, 100), [255, 0, 0], True, mass=10)
+platform = objects.Rectangle([900, 5], Vector2(0, 500), [0, 0, 0])
 
 # Variables
 keydebounce = 0.1
